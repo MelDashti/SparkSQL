@@ -28,6 +28,8 @@ public class SparkDriver {
 		inputPath = args[0];
 		outputPath = args[1];
 
+		SpartSession as = SparkSession.builder().master("local").appName("Notes").getOrCreate();
+		
 		// Create a Spark Session object and set the name of the application
 		// SparkSession ss = SparkSession.builder()
 				//.appName("Spark Exercise #48 - DataFrame").getOrCreate();
@@ -42,6 +44,12 @@ public class SparkDriver {
 				.option("inferSchema", true)
 				.load(inputPath);
 
+		DataSet<Row> dfProfiles2 = ss.read().fomrati("csv").option("header",true).option("inferSchema",true).load(inputPath);
+		// the above code is equivalent to the following code
+
+		// DataFrame is equal to Dataset<Row>
+		// So the above code can also be written as
+		Dataframe dfProfiles3 = ss.read().format("csv").option("header",true).option("inferSchema",true).load(inputPath);
 
 		// From DataFrame to RDD
 		JavaRDD<Row> rddProfiles = dfProfiles.javaRDD();
@@ -51,6 +59,7 @@ public class SparkDriver {
 		// fieldIndex(String name) returns the index of the column with the specified name
 		// get(int i) returns the value of the i-th column
 		// getAs(String name) returns the value of the column with the specified name
+		
 		
 
 		// From DataFrame to RDD: Example
@@ -87,6 +96,7 @@ public class SparkDriver {
 		// Suppose the following persons are stored in a list. 
 		// John, 23 and Mary, 25 and Peter, 30
 		// First we create a personalized class
+
 		class Person implements Serializable {
 			private String name;
 			private int age;
@@ -118,6 +128,7 @@ public class SparkDriver {
 		// Encoders are used by Spark to convert between JVM objects and Spark's internal binary format. 
 		// The Encoders.bean(Person.class) method creates an encoder based on the Person class's bean properties (its getter and setter methods).
 	
+		
 		Encoder<Person> personEncoder = Encoders.bean(Person.class);
 
 		// Define the dataset based on the local list of objects of type Person
@@ -126,6 +137,7 @@ public class SparkDriver {
 		// Default encoders are provided for basic types like string, integer, long, date, etc.
 		// For example, the following code creates a dataset of strings
 		Dataset<String> dsStrings = ss.createDataset(persons, Encoders.STRING());
+		
 
 		// Creating datasets from local collections example 2
 		// Using default integer encoder. Encoders.INT() is equivalent to Encoders.bean(Integer.class)
