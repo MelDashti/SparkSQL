@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "SparkDriver",
+            "request": "launch",
+            "mainClass": "it.polito.bigdata.spark.exercise44.SparkDriver",
+            "projectName": "Exercise44",
+            "args": ["ex44_data/watchedmovies.txt", "ex44_data/preferences.txt", "ex44_data/movies.txt", "ex44_out/", 0.5]
+        }
+    ]
+}

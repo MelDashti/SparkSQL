@@ -359,10 +359,34 @@ public class SparkDriver {
 		// the option header is used to specify that the output file has an header.
 		// the option inferSchema is used to specify that the schema of the output file is inferred from the dataset.
 
+		// .explain() is used to show the execution plan. 
 		
+		// User Defined Functions (UDFs)
+		// Spark allows us to define our own functions and use them in SQL queries.
+		// Example: we can use the function in selectExp(), sort() 
+		// We can also use a set of predefined functions. Such as mathematical functions, string functions, date functions, etc.
+		// hour(TimeColumn) returns the hour component of the time column
+		// abs(IntegerColumn) returns the absolute value of the integer column
 
+		// Udfs are defined using the udf().register(nameOfTheFUnction,udf function, datatype) method.
 
+		// Define a UDfs that given a string returns the length of the string. 
 
+		// First we create a spark session object
+		SparkSession ss = SparkSession.builder().appName("Notes").getOrCreate();
+		// Define the udf
+		// name: length
+		// input: string
+		// output: integer
+		ss.udf().register("length",(String name)->name.length(),DataTypes.IntegerType);
+
+		// Use of this udf in a sql query
+		Dataset<Row> result = dsPersons16.selectExpr("length(name) as size"); //name is the column on which we wanna apply the function 
+
+		/// Use of udf in a select statement
+		Dataset<Row> result2 = ss.sql("SELECT length(name) as size from persons");
+
+		
 
 
 
